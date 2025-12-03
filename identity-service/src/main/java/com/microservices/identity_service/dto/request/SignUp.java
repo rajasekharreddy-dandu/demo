@@ -23,7 +23,7 @@ public class SignUp {
     private String username;
 
     @Size(min = 8, max = 50, message = "Password must be between 8 and 50 characters")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$",
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+-=])[a-zA-Z\\d!@#$%^&*()_+-=]{8,}$",
             message = "Password must contain all uppercase and lowercase letters and numbers")
     private String password;
 
