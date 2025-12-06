@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 8081
 
 spring:
   application:
@@ -10,10 +10,14 @@ spring:
       enabled: always
 
   datasource:
-    url: jdbc:mysql://localhost:3306/microservice
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/user-service
+#    username: root
+#    password:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://localhost:5432/user-service
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,22 +27,22 @@ spring:
         format_sql: true
         # dialect: org.hibernate.dialect.MySQL8Dialect
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: clientid
-            client-secret: clientsecret
-            scope:
-              - openid
-              - profile
-              - email
-        provider:
-          google:
-            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
-            token-uri: https://oauth2.googleapis.com/token
-            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: clientid
+#            client-secret: clientsecret
+#            scope:
+#              - openid
+#              - profile
+#              - email
+#        provider:
+#          google:
+#            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+#            token-uri: https://oauth2.googleapis.com/token
+#            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
 
 application:
   security:
