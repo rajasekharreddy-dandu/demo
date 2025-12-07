@@ -1,4 +1,0 @@
-java -jar Jenkins.war
-
-username :jenkins
-password:jenkins
