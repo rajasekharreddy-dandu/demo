@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class IdentityServiceApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public contextLoads() {
         log.info("Test case execute");
         assertTrue(true);
 	}
