@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Service
+  db:
+    image: postgres:15-alpine # Use a specific, lightweight image
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: user_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      # Maps host port 5432 to container port 5432 (optional, for tools like pgAdmin on your host)
+      - "5432:5432"
+    # Use a volume to persist data across container restarts
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Spring Boot Application Service
+  app:
+    build: . # Tells Docker to build the image using the Dockerfile in the current directory
+    container_name: identity-service
+    ports:
+      - "8081:8081"
+    environment:
+      # **THIS IS THE FIX** - use the service name ('db') as the hostname
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/user_service
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - db # Ensures the 'db' service starts before the 'app' service
+
+volumes:
+  postgres_data:

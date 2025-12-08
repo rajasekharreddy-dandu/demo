@@ -3,6 +3,7 @@ package com.microservices.identity_service.controller;
 import com.microservices.identity_service.dto.response.*;
 import com.microservices.identity_service.enums.TokenType;
 import com.microservices.identity_service.model.User;
+import com.microservices.identity_service.utils.ControllerHelper;
 import com.microservices.identity_service.validate.AuthorityTokenUtil;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +12,7 @@ import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+//import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import com.microservices.identity_service.dto.request.AuthRequest;
 import com.microservices.identity_service.dto.request.RefreshTokenRequest;
@@ -41,7 +42,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "User Authentication API", description = "APIs for user registration, login, and authentication")
@@ -51,6 +52,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
+    private final ControllerHelper controllerHelper;
 
     @Operation(summary = "Register a new user", description = "Registers a new user with the provided details.")
     @ApiResponses({
@@ -63,7 +65,7 @@ public class AuthController {
     public ResponseEntity<?> register(@Valid @RequestBody SignUp signUp) {
         User user=authService.register(signUp);
         log.info("User {} created successfully.",user.getUsername());
-        return ResponseEntity.ok(generateAuthResonse(user));
+        return ResponseEntity.ok(controllerHelper.getUserResonse(user,true));
 
     }
     @Operation(summary = "User login", description = "Logs in a user with the provided credentials.")
@@ -76,7 +78,6 @@ public class AuthController {
 
         AuthenticationResponse response = authService.login(signInForm); // synchronous call
         return ResponseEntity.ok(response);
-
     }
 
 
@@ -166,16 +167,6 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE,refreshTokenCookie.toString())
                 .build();
 
-    }
-
-    @GetMapping("/public")
-    public String publicApi() {
-        return "This is a public API";
-    }
-
-    @GetMapping("/private")
-    public String privateApi(OAuth2AuthenticationToken token) {
-        return "Authenticated "+token.getPrincipal().getAttribute("email");
     }
 
     @Operation(summary = "Check user authority", description = "Checks if the user has the specified authority.")

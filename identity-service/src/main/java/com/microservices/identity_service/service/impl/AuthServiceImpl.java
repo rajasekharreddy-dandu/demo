@@ -10,6 +10,7 @@ import com.microservices.identity_service.dto.request.*;
 import com.microservices.identity_service.exception.wrapper.*;
 import com.microservices.identity_service.security.UserDetailsServices;
 import com.microservices.identity_service.security.UserPrinciple;
+import com.microservices.identity_service.utils.ControllerHelper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class AuthServiceImpl implements AuthService{
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     private final ModelMapper modelMapper;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -70,44 +72,6 @@ public class AuthServiceImpl implements AuthService{
 //         var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
 //         System.out.println("User details: "+user);
 //         return generateAuthResonse(user);
-//     }
-
-//     @Override
-//     public AuthenticationResponse updateUser(Long userId, UserRegisterRequest userRequest) {
-
-//         User existingUser = userRepository.findById(userId)
-//                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
-
-//         System.out.println("Existing user after :"+existingUser);
-//         existingUser.setFirstname(userRequest.getFirstname());
-//         existingUser.setLastname(userRequest.getLastname());
-//         existingUser.setUsername(userRequest.getUsername());
-//         existingUser.setEmail(userRequest.getEmail());
-//         existingUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-//         existingUser.setRole(userRequest.getRole());
-
-//         existingUser=userRepository.save(existingUser);
-//         System.out.println("after :"+existingUser);
-//        return generateAuthResonse(existingUser);
-//     }
-//     @Override
-//     public AuthenticationResponse generateAuthResonse(User user){
-//          var jwt = jwtService.generateToken(user);
-//         var refreshToken = refreshTokenService.createRefreshToken(user.getId());
-//         // System.out.println(jwt);
-//         var roles = user.getRole().getAuthorities()
-//                 .stream()
-//                 .map(SimpleGrantedAuthority::getAuthority)
-//                 .toList();
-
-//         return AuthenticationResponse.builder()
-//                 .accessToken(jwt)
-//                 .email(user.getEmail())
-//                 .id(user.getId())
-//                 .refreshToken(refreshToken.getToken())
-//                 .roles(roles)
-//                 .tokenType(TokenType.BEARER.name())
-//                 .build();
 //     }
 
     @Override
@@ -140,16 +104,19 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public AuthenticationResponse login(AuthRequest signInForm) {
-
+        log.info("Authservice, Login user" );
         String usernameOrEmail = signInForm.getUsername();
         boolean isEmail = usernameOrEmail.contains("@gmail.com");
 
         UserDetails userDetails;
         if (isEmail) {
+            log.info("Authservice, Login user by email" );
             userDetails = userDetailsService.loadUserByEmail(usernameOrEmail);
         } else {
+            log.info("Authservice, Login user by username" );
             userDetails = userDetailsService.loadUserByUsername(usernameOrEmail);
         }
+
         // check username
         if (userDetails == null) {
             throw new UserNotFoundException("User not found");
@@ -184,6 +151,31 @@ public class AuthServiceImpl implements AuthService{
 
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found userId: " + id + " for update"));
+        // 2a. Validate Username Uniqueness
+        String newUsername = updateDTO.getUsername();
+        if (newUsername != null && !newUsername.equals(existingUser.getUsername())) {
+            userRepository.findByUsername(newUsername).ifPresent(user -> {
+                throw new DuplicateUserException("Username is already taken: " + newUsername);
+            });
+        }
+
+        // 2b. Validate Email Uniqueness
+        String newEmail = updateDTO.getEmail();
+        if (newEmail != null && !newEmail.equals(existingUser.getEmail())) {
+            userRepository.findByEmail(newEmail).ifPresent(user -> {
+                throw new DuplicateUserException("Email is already taken: " + newEmail);
+            });
+        }
+
+        // 2c. Validate Phone Number Uniqueness
+        String newPhone = updateDTO.getPhone();
+        if (newPhone != null && !newPhone.equals(existingUser.getPhone())) {
+            userRepository.findByPhone(newPhone).ifPresent(user -> {
+                throw new DuplicateUserException("Phone number is already taken: " + newPhone);
+            });
+        }
+
+
 
         modelMapper.map(updateDTO, existingUser);
         existingUser.setPassword(passwordEncoder.encode(updateDTO.getPassword()));
@@ -213,6 +205,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public String changePassword(ChangePasswordRequest request) {
+        log.info("AuthService: changePassword" );
         try{
             UserDetails userDetails = getCurrentUserDetails();
             String username = userDetails.getUsername();

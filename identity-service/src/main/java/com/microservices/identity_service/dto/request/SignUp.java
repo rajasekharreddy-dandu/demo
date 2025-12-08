@@ -23,7 +23,7 @@ public class SignUp {
     private String username;
 
     @Size(min = 8, max = 50, message = "Password must be between 8 and 50 characters")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$",
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+-=])[a-zA-Z\\d!@#$%^&*()_+-=]{8,}$",
             message = "Password must contain all uppercase and lowercase letters and numbers")
     private String password;
 
@@ -31,11 +31,11 @@ public class SignUp {
     @Pattern(regexp = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Gender must not be left blank")
+//    @NotBlank(message = "Gender must not be left blank")
     private String gender;
 
     @Size(min = 10, max = 11, message = "Phone number must be between 10 and 11 digits")
-    @Pattern(regexp = "^\\+84[0-9]{9,10}$|^0[0-9]{9,10}$", message = "The phone number is not in the correct format")
+    @Pattern(regexp = "^\\+91[0-9]{9,10}$|^0[0-9]{9,10}$", message = "The phone number is not in the correct format")
     private String phone;
 
     @Pattern(regexp = "^(http|https)://.*$", message = "Avatar URL must be a valid HTTP or HTTPS URL")

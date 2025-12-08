@@ -21,6 +21,9 @@ public enum Role {
     ADMIN(
             Set.of(READ_PRIVILEGE,WRITE_PRIVILEGE,UPDATE_PRIVILEGE,DELETE_PRIVILEGE)
     ),
+    PUROHIT(
+            Set.of(READ_PRIVILEGE,WRITE_PRIVILEGE,UPDATE_PRIVILEGE)
+    ),
     USER(
             Set.of(READ_PRIVILEGE,WRITE_PRIVILEGE)
     );

@@ -13,6 +13,7 @@ import com.microservices.identity_service.model.User;
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByUsername(String username);
     Optional<User> findById(Long userId);
+    Optional<User> findByPhone(String phoneNumber);
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
     Optional<User> findByEmail(@Param("email") String name);
@@ -35,5 +36,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "ELSE false " +
             "END FROM User u WHERE u.phone = :phone")
     Boolean existsByPhoneNumber(@Param("phone") String phone);
+
 }
 

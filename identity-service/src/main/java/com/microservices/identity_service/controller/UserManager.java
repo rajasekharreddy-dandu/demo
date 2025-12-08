@@ -12,6 +12,7 @@ import com.microservices.identity_service.http.HeaderGenerator;
 import com.microservices.identity_service.model.User;
 import com.microservices.identity_service.service.AuthService;
 import com.microservices.identity_service.service.JwtService;
+import com.microservices.identity_service.utils.ControllerHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -28,15 +29,15 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/manager")
+@RequestMapping("/api/v1/manager")
 @RequiredArgsConstructor
 @Tag(name = "User API", description = "Operations related to users")
 public class UserManager {
-    private final ModelMapper modelMapper;
 
+    private final ModelMapper modelMapper;
     private final AuthService userService;
     private final HeaderGenerator headerGenerator;
-
+    private final ControllerHelper controllerHelper;
     private final JwtService jwtService;
 
 
@@ -46,15 +47,17 @@ public class UserManager {
             @ApiResponse(responseCode = "400", description = "Bad Request")
     })
     @PutMapping("update/{id}")
-    @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
-    public ResponseEntity<ResponseMessage> update(@PathVariable("id") Long id, @RequestBody SignUp updateDTO) {
-        try {
+    @PreAuthorize("isAuthenticated() and (hasAuthority('USER')or hasAuthority('ADMIN'))")
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody SignUp updateDTO) {
+//        try {
             User user = userService.update(id, updateDTO); // synchronous call
-            return ResponseEntity.ok(new ResponseMessage("Update user: " + updateDTO.getUsername() + " successfully."));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    new ResponseMessage("Update user: " + updateDTO.getUsername() + " failed: " + e.getMessage()));
-        }
+//            return ResponseEntity.ok(new ResponseMessage("Update user: " + updateDTO.getUsername() + " successfully."));
+            log.info("User {} Updated successfully.",user.getId());
+            return ResponseEntity.ok(controllerHelper.getUserResonse(user,true));
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(
+//                    new ResponseMessage("Update user: " + updateDTO.getUsername() + " failed: " + e.getMessage()));
+//        }
     }
 
 
@@ -72,7 +75,7 @@ public class UserManager {
     @Operation(summary = "Delete user",
             description = "Delete a user with the specified ID.")
     @DeleteMapping("delete/{id}")
-    @PreAuthorize("isAuthenticated() and (hasAuthority('USER') or hasAuthority('ADMIN'))")
+    @PreAuthorize("isAuthenticated() and (hasAuthority('SUPER_ADMIN') or hasAuthority('ADMIN'))")
     public String delete(@PathVariable("id") Long id) {
         return userService.delete(id);
     }
@@ -80,7 +83,7 @@ public class UserManager {
     @Operation(summary = "Get user by username",
             description = "Retrieve user information based on the provided username.")
     @GetMapping("/user")
-    @PreAuthorize("(hasAuthority('ADMIN')) or (hasAuthority('ROLE_USER') and principal.username == #username)")
+    @PreAuthorize("(hasAuthority('ADMIN')) or (hasAuthority('USER') and principal.username == #username)")
     public ResponseEntity<?> getUserByUsername(@RequestParam("username") String username) {
         try {
             User user = userService.findByUsername(username)
