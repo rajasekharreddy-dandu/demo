@@ -1,0 +1,477 @@
+package com.microservices.batch_processing_demo.config;
+
+
+import com.microservices.batch_processing_demo.controller.CustomFileItemReader;
+import com.microservices.batch_processing_demo.entity.Customer;
+import com.microservices.batch_processing_demo.repository.CustomerRepository;
+
+import lombok.AllArgsConstructor;
+
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.job.builder.JobBuilder; // Use JobBuilder directly
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder; // Use StepBuilder directly
+import org.springframework.batch.item.data.RepositoryItemReader;
+import org.springframework.batch.item.data.RepositoryItemWriter;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.file.LineMapper;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.mapping.FieldSetMapper;
+import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
+import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.file.transform.LineTokenizer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.domain.Sort;
+import org.springframework.transaction.PlatformTransactionManager;
+
+@Configuration
+@EnableBatchProcessing
+@AllArgsConstructor
+public class SpringBatchConfig {
+
+    private CustomerRepository customerRepository;
+    private JobRepository jobRepository;
+    private PlatformTransactionManager transactionManager;
+
+//     @Value("classpath:customers.csv")
+//   private Resource inputFeed;
+
+    @Bean
+    public FlatFileItemReader<Customer> reader() {
+        FlatFileItemReader<Customer> itemReader = new FlatFileItemReader<>();
+        itemReader.setResource(new ClassPathResource("customers.csv")); // Assuming your CSV file is named "customers.csv"
+        itemReader.setName("csvReader");
+        itemReader.setLinesToSkip(1); // Skip header row
+
+        DefaultLineMapper<Customer> lineMapper = new DefaultLineMapper<>();
+        DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
+        lineTokenizer.setDelimiter(","); // Set the delimiter for your CSV file
+        lineTokenizer.setNames("id", "firstName", "lastName", "email", "gender", "contactNo", "country", "dob"); // Adjust column names based on your CSV and Customer entity
+        lineMapper.setLineTokenizer(lineTokenizer);
+
+        BeanWrapperFieldSetMapper<Customer> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+        fieldSetMapper.setTargetType(Customer.class);
+        lineMapper.setFieldSetMapper(fieldSetMapper);
+
+        itemReader.setLineMapper(lineMapper);
+        return itemReader;
+    }
+     @Bean
+    @StepScope // Ensures the reader is created for each step execution
+    public CustomFileItemReader customFileItemReader(@Value("#{jobParameters['inputStream']}") InputStream inputStream, LineTokenizer tokenizer, FieldSetMapper<T> fieldSetMapper) {
+        return new CustomFileItemReader(inputStream, tokenizer, fieldSetMapper);
+    }
+
+    @Bean
+    public CustomerProcessor processor() { // Assuming you have a CustomerProcessor class (you didn't include it in your snippet)
+        return new CustomerProcessor();
+    }
+
+    @Bean
+    public RepositoryItemWriter<Customer> writer() {
+        RepositoryItemWriter<Customer> writer = new RepositoryItemWriter<>();
+        writer.setRepository(customerRepository);
+        writer.setMethodName("save"); // Using the save method of your repository
+        return writer;
+    }
+
+    @Bean
+    public Step step1(JobRepository jobRepository, PlatformTransactionManager transactionManager) { // Explicitly define JobRepository and PlatformTransactionManager
+        return new StepBuilder("csv-step", jobRepository)
+                .<Customer, Customer>chunk(10, transactionManager) // Define the chunk size and transaction manager
+                .reader(reader())
+                .processor(processor())
+                .writer(writer())
+                .taskExecutor(taskExecutor())
+                .build();
+    }
+
+    @Bean
+    public Job runJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) { // Explicitly define JobRepository and PlatformTransactionManager
+        return new JobBuilder("importCustomers", jobRepository) // Use the new JobBuilder
+                .start(step1(jobRepository, transactionManager)) // Pass JobRepository and PlatformTransactionManager to the step
+                .build();
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor() {
+        SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor("spring_batch");
+        asyncTaskExecutor.setConcurrencyLimit(10); // Set concurrency limit for your batch processing
+        return asyncTaskExecutor;
+    }
+
+      
+@Bean
+public FlatFileItemWriter<Customer> csvWriter() {
+    FlatFileItemWriter<Customer> writer = new FlatFileItemWriter<>();
+    writer.setResource(new FileSystemResource("exportdata/customers1.csv"));
+    writer.setHeaderCallback(writer1 -> writer1.write("id, firstName, lastName, email, gender, contactNo, country, dob"));
+    writer.setLineAggregator(new DelimitedLineAggregator<>() {{
+        setDelimiter(",");
+        setFieldExtractor(new BeanWrapperFieldExtractor<>() {{
+            setNames(new String[]{"id", "firstName", "lastName", "email", "gender", "contactNo", "country", "dob"});
+        }});
+    }});
+    return writer;
+}
+
+@Bean
+@StepScope
+public RepositoryItemReader<Customer> readerfromDB(@Value("#{jobParameters['gender']}") String gender) {
+    RepositoryItemReader<Customer> reader = new RepositoryItemReader<>();
+    reader.setRepository(customerRepository);
+    reader.setMethodName("findByGender");
+    reader.setArguments(List.of(gender)); // Pass method arguments here
+    reader.setPageSize(100);
+    reader.setSort(Map.of("id", Sort.Direction.ASC)); // Required for pagination
+    return reader;
+}
+
+
+    @Bean
+    public Step exportStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,RepositoryItemReader<Customer> readerfromDB) { // Explicitly define JobRepository and PlatformTransactionManager
+        return new StepBuilder("exportcsv-step", jobRepository)
+                .<Customer, Customer>chunk(10, transactionManager) // Define the chunk size and transaction manager
+                .reader(readerfromDB)
+                .processor(processor())
+                .writer(csvWriter())
+                .taskExecutor(taskExecutor())
+                .build();
+    }
+
+    @Bean
+    public Job exportJob(JobRepository jobRepository, PlatformTransactionManager transactionManager,RepositoryItemReader<Customer> readerfromDB) { // Explicitly define JobRepository and PlatformTransactionManager
+        return new JobBuilder("exportCustomers", jobRepository) // Use the new JobBuilder
+                .start(exportStep(jobRepository, transactionManager,readerfromDB)) // Pass JobRepository and PlatformTransactionManager to the step
+                .build();
+    }
+}
+
+
+------------------
+package com.microservices.batch_processing_demo.config;
+
+import org.springframework.batch.item.ItemProcessor;
+
+import com.microservices.batch_processing_demo.entity.Customer;
+
+public class CustomerProcessor implements ItemProcessor<Customer,Customer> {
+
+    // @Override
+    public Customer process(Customer customer) throws Exception {
+        // if(customer.getCountry().equals("United States")) {
+        //     return customer;
+        // }else{
+        //     return null;
+        // }
+        return customer;
+    }
+}
+----------------
+package com.microservices.batch_processing_demo.controller;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
+import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+@RequestMapping("/jobs")
+public class CustomerController {
+
+    @Autowired
+    private JobLauncher jobLauncher; // Or a custom JobLauncher like asyncJobLauncher if you configured it as an async bean
+
+    @Autowired
+    @Qualifier("runJob") // Use the name of your Job bean
+    private Job job;
+    @Autowired
+    @Qualifier("exportJob") // Use the name of your Job bean
+    private Job exportJob;
+
+    @GetMapping("/greet")
+    public String greetins(){
+        return "Hello Greetings";
+    }
+
+     @PostMapping("/importCustomers")
+    public ResponseEntity<String> importCsvToDBJob(@RequestParam("file") MultipartFile file) throws IOException {
+        // Create an InputStream from the uploaded file
+        InputStream inputStream = file.getInputStream();
+        
+        JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("startAt", System.currentTimeMillis())
+                    .addDate("date", new Date()) // Example of adding a Date parameter
+                    .toJobParameters(); // Convert the builder to a JobParameters object
+        // System.out.println(jobParameters);
+        try {
+            
+            jobLauncher.run(job, jobParameters);
+             return ResponseEntity.ok("Imported Successfully");
+        } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Export Failed :"+e.getMessage());
+
+        }
+    }
+
+    @GetMapping("/exportCustomers")
+    public ResponseEntity<String> exportCustomers(@RequestParam String gender) {
+        JobParameters jobParameters = new JobParametersBuilder()
+                    .addString("gender", gender)
+                    .addLong("startAt", System.currentTimeMillis())
+                    .addDate("date", new Date()) // Example of adding a Date parameter
+                    .toJobParameters(); // Convert the builder to a JobParameters object
+        // System.out.println(jobParameters);
+        try {
+            
+            jobLauncher.run(exportJob, jobParameters);
+           return ResponseEntity.ok("Exported Successfully");
+        } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException | JobParametersInvalidException e ) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Export Failed :"+e.getMessage());
+        }
+    }
+
+
+}
+
+----------------
+package com.microservices.batch_processing_demo.controller;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStream;
+import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.file.mapping.FieldSetMapper;
+import org.springframework.batch.item.file.transform.FieldSet;
+import org.springframework.batch.item.file.transform.LineTokenizer;
+
+// Custom ItemReader
+public class CustomFileItemReader<T> implements ItemReader<T>, ItemStream {
+
+    private InputStream inputStream;
+    private BufferedReader reader;
+    private LineTokenizer tokenizer; // For CSV or other delimited files
+    private FieldSetMapper<T> fieldSetMapper; // For mapping to objects
+    private int lineCount = 0;
+
+    public CustomFileItemReader(InputStream inputStream, LineTokenizer tokenizer, FieldSetMapper<T> fieldSetMapper) {
+        this.inputStream = inputStream;
+        this.tokenizer = tokenizer;
+        this.fieldSetMapper = fieldSetMapper;
+    }
+
+    @Override
+    public T read() throws Exception {
+        String line = reader.readLine();
+        if (line != null) {
+            lineCount++;
+            FieldSet fieldSet = tokenizer.tokenize(line);
+            return fieldSetMapper.mapFieldSet(fieldSet);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void open(ExecutionContext executionContext) throws ItemStreamException {
+        reader = new BufferedReader(new InputStreamReader(inputStream));
+    }
+
+    @Override
+    public void update(ExecutionContext executionContext) throws ItemStreamException {
+        // Not strictly necessary for this simple example without restart logic
+    }
+
+    @Override
+    public void close() throws ItemStreamException {
+        if (reader != null) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                // Log or handle the exception
+            }
+        }
+    }
+}
+--------------------
+package com.microservices.batch_processing_demo.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity()
+@Table(name = "CUSTOMERS_INFO")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Customer {
+
+    @Id
+    @Column(name = "CUSTOMER_ID")
+    private int id;
+    @Column(name = "FIRST_NAME")
+    private String firstName;
+    @Column(name = "LAST_NAME")
+    private String lastName;
+    @Column(name = "EMAIL")
+    private String email;
+    @Column(name = "GENDER")
+    private String gender;
+    @Column(name = "CONTACT")
+    private String contactNo;
+    @Column(name = "COUNTRY")
+    private String country;
+    @Column(name = "DOB")
+    private String dob;
+
+
+}
+
+-------------------
+package com.microservices.batch_processing_demo.repository;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.microservices.batch_processing_demo.entity.Customer;
+
+@Repository
+public interface CustomerRepository  extends JpaRepository<Customer,Integer> {
+    Page<Customer> findByGender(String gender,Pageable pageable);
+}
+
+-------------
+package com.microservices.batch_processing_demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+public class BatchProcessingApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(BatchProcessingApplication.class, args);
+	}
+
+}
+
+--------------------
+spring.application.name=Batch Processing
+
+server.port=8181
+spring.output.ansi.enabled=always
+
+spring.datasource.url=jdbc:mysql://localhost:3306/spring-batch
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+
+spring.batch.jdbc.initialize-schema=ALWAYS
+
+#disabled job run at startup
+spring.batch.job.enabled=false
+
+management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=always
+
+management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
+management.tracing.sampling.probability= 1
+
+#Eureka Properties
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+eureka.instance.hostname=localhost
+eureka.instance.instance-id=${spring.application.name}:${server.port}
+eureka.instance.prefer-ip-address=true
+eureka.instance.ip-address=127.0.0.1
+----------------------
+csv file
+
+id,firstName,lastName,email,gender,contactNo,country,dob
+1,Dud,Ishak,dishak0@alexa.com,Male,970-613-2617,Ukraine,24-06-2012
+2,Jolyn,Bragg,jbragg1@go.com,Genderqueer,614-319-7266,United States,18-09-2003
+3,Sallie,Gaw,sgaw2@mit.edu,Female,997-395-9270,France,12-05-1994
+4,Belle,De Biasi,bdebiasi3@ucla.edu,Female,592-563-0424,Democratic Republic of the Congo,08-04-2001
+5,Bing,Filov,bfilov4@engadget.com,Male,343-984-1150,Indonesia,19-10-1992
+6,West,Douberday,wdouberday5@mozilla.org,Male,615-444-4318,Brazil,24-05-1990
+7,Marion,Northridge,mnorthridge6@newsvine.com,Female,149-504-2848,Dominican Republic,01-04-2020
+8,Hillary,Whittle,hwhittle7@free.fr,Non-binary,800-103-2454,China,09-05-1993
+9,Standford,Semour,ssemour8@live.com,Genderqueer,442-441-9317,Indonesia,24-10-2010
+10,Babs,Orridge,borridge9@exblog.jp,Female,654-596-4163,Netherlands,04-08-1999
+11,Arliene,Dunnett,adunnetta@microsoft.com,Female,799-950-8349,China,10-08-1999
+12,Anabal,Bick,abickb@icq.com,Female,100-307-6924,Ukraine,20-06-2009
+13,Thelma,Hoodlass,thoodlassc@ucsd.edu,Female,627-566-6711,China,16-11-2012
+14,Othello,Sperrett,osperrettd@feedburner.com,Male,326-887-9247,France,28-11-1990
+15,Kristal,Herche,kherchee@cbslocal.com,Female,928-973-7589,China,12-11-2016
+16,Archibaldo,Goldberg,agoldbergf@ted.com,Male,733-212-0386,Brazil,27-04-2012
+17,Traver,Sutheran,tsutherang@wired.com,Male,231-864-6056,Bosnia and Herzegovina,30-12-1994
+18,Noelani,Baggally,nbaggallyh@discuz.net,Female,641-445-0261,Brazil,22-02-2015
+19,Maye,Peetermann,mpeetermanni@rambler.ru,Female,222-435-3367,Bulgaria,19-01-2011
+20,Barbara,Coleyshaw,bcoleyshawj@unc.edu,Agender,415-111-0479,Ecuador,13-11-2005
+21,Fania,Rewan,frewank@msu.edu,Female,191-884-4571,Tunisia,16-12-2014
+22,Wolfgang,Oakes,woakesl@illinois.edu,Male,257-206-7432,Indonesia,23-01-2013
+23,Ade,O' Timony,aotimonym@gov.uk,Male,869-144-1196,Brazil,06-08-2011
+24,Cherrita,Dyers,cdyersn@wikimedia.org,Female,458-114-4414,China,14-04-2017
+25,Ram,Picknett,rpicknetto@sitemeter.com,Male,844-259-6129,Greece,29-08-2016
+26,Lauree,Welbelove,lwelbelovep@wikipedia.org,Female,712-218-2506,Indonesia,02-04-1993
+27,Christie,Fleischer,cfleischerq@earthlink.net,Male,738-533-1171,Iran,15-07-2006
+28,Winthrop,Hamm,whammr@virginia.edu,Male,582-122-9264,Slovenia,16-10-1998
+29,Cedric,Thring,cthrings@cpanel.net,Male,320-144-8534,China,20-07-2000
+30,Lenci,Skipsey,lskipseyt@oaic.gov.au,Male,443-819-1410,China,17-11-2002
+31,Marna,Breen,mbreenu@gravatar.com,Female,755-125-7502,Poland,06-11-2017
+32,Moss,Doret,mdoretv@flavors.me,Male,530-901-1228,Brazil,04-06-1996
+33,Gol
