@@ -86,9 +86,9 @@ public class User {
     @Column(name = "phoneNumber", unique = true)
     private String phone;
 
-//    @Pattern(regexp = "^(http|https)://.*$", message = "Avatar URL must be a valid HTTP or HTTPS URL")
+    @Pattern(regexp = "^(http|https)://.*$", message = "Avatar URL must be a valid HTTP or HTTPS URL")
     @Lob
-    @Column(name = "imageUrl")
+    @Column(name = "imageUrl" , length = 2048)
     private String avatar;
 
     @Enumerated(EnumType.STRING)

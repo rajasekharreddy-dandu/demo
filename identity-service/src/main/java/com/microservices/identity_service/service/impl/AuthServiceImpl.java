@@ -259,6 +259,7 @@ public class AuthServiceImpl implements AuthService{
                 .orElseThrow(() -> new UserNotFoundException("User not found with userId: " + userId));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<User> findByUsername(String userName) {
         return Optional.ofNullable(userRepository.findByUsername(userName)
