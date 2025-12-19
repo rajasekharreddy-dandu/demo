@@ -11,11 +11,11 @@ username: postgres
 password:postgres
 
 After installation of DB
-* create Database user_service with below command  *
+* create Database user_service with below command
 CREATE DATABASE "user-service";
 
 catalogs-service:
 ****************************
 After installation of DB
-* create Database catalogs_service with below command  *
+* create Database catalogs_service with below command
 CREATE DATABASE "catalogs_service";
