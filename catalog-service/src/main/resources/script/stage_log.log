@@ -1,0 +1,369 @@
+2025-12-19T17:17:02.361+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] c.m.c.CatalogServiceApplication          : Starting CatalogServiceApplication using Java 21.0.9 with PID 23012 (D:\Microservices\catalog-service\target\classes started by thala in D:\Microservices\catalog-service)
+2025-12-19T17:17:02.365+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] c.m.c.CatalogServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-19T17:17:02.445+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-19T17:17:02.445+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-19T17:17:03.919+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-19T17:17:03.953+05:30 DEBUG 23012 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Scanning for JPA repositories in packages com.microservices.catalog_service.
+2025-12-19T17:17:03.970+05:30 DEBUG 23012 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CatalogsRepository.class]
+2025-12-19T17:17:03.970+05:30 DEBUG 23012 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CategoryRepository.class]
+2025-12-19T17:17:03.971+05:30 DEBUG 23012 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CategoryRepositoryPagingAndSorting.class]
+2025-12-19T17:17:04.077+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 119 ms. Found 3 JPA repository interfaces.
+2025-12-19T17:17:04.835+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
+2025-12-19T17:17:04.852+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-19T17:17:04.853+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-12-19T17:17:04.926+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-19T17:17:04.926+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2480 ms
+2025-12-19T17:17:05.137+05:30 DEBUG 23012 --- [CATALOG-SERVICE] [restartedMain] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2025-12-19T17:17:05.182+05:30  WARN 23012 --- [CATALOG-SERVICE] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.postgresql.Driver
+2025-12-19T17:17:05.189+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-12-19T17:17:05.211+05:30  INFO 23012 --- [CATALOG-SERVICE] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-19T17:17:05.237+05:30 ERROR 23012 --- [CATALOG-SERVICE] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.postgresql.Driver
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.3.jar:3.5.3]
+	at com.microservices.catalog_service.CatalogServiceApplication.main(CatalogServiceApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.3.jar:3.5.3]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.postgresql.Driver
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:546) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1205) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.8.jar:6.2.8]
+	... 13 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.postgresql.Driver
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:645) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1205) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1683) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1628) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.8.jar:6.2.8]
+	... 23 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.postgresql.Driver
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:199) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiateWithFactoryMethod(SimpleInstantiationStrategy.java:88) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:168) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653) ~[spring-beans-6.2.8.jar:6.2.8]
+	... 36 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: org.postgresql.Driver
+	at org.springframework.util.Assert.state(Assert.java:101) ~[spring-core-6.2.8.jar:6.2.8]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.findDriverClassName(DataSourceProperties.java:184) ~[spring-boot-autoconfigure-3.5.3.jar:3.5.3]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:174) ~[spring-boot-autoconfigure-3.5.3.jar:3.5.3]
+	at org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:49) ~[spring-boot-autoconfigure-3.5.3.jar:3.5.3]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:62) ~[spring-boot-autoconfigure-3.5.3.jar:3.5.3]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:127) ~[spring-boot-autoconfigure-3.5.3.jar:3.5.3]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:171) ~[spring-beans-6.2.8.jar:6.2.8]
+	... 39 common frames omitted
+
+2025-12-19T17:21:27.381+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] c.m.c.CatalogServiceApplication          : Starting CatalogServiceApplication using Java 21.0.9 with PID 21624 (D:\Microservices\catalog-service\target\classes started by thala in D:\Microservices\catalog-service)
+2025-12-19T17:21:27.385+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] c.m.c.CatalogServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-19T17:21:27.454+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-19T17:21:27.454+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-19T17:21:29.407+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-19T17:21:29.435+05:30 DEBUG 21624 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Scanning for JPA repositories in packages com.microservices.catalog_service.
+2025-12-19T17:21:29.456+05:30 DEBUG 21624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CatalogsRepository.class]
+2025-12-19T17:21:29.457+05:30 DEBUG 21624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CategoryRepository.class]
+2025-12-19T17:21:29.458+05:30 DEBUG 21624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CategoryRepositoryPagingAndSorting.class]
+2025-12-19T17:21:29.592+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 153 ms. Found 3 JPA repository interfaces.
+2025-12-19T17:21:30.553+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
+2025-12-19T17:21:30.571+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-19T17:21:30.572+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-12-19T17:21:30.656+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-19T17:21:30.657+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3202 ms
+2025-12-19T17:21:30.904+05:30 DEBUG 21624 --- [CATALOG-SERVICE] [restartedMain] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2025-12-19T17:21:31.107+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-19T17:21:31.208+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-12-19T17:21:31.272+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-19T17:21:31.741+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-19T17:21:31.814+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-19T17:21:33.098+05:30  WARN 21624 --- [CATALOG-SERVICE] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 3D000
+2025-12-19T17:21:33.100+05:30 ERROR 21624 --- [CATALOG-SERVICE] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : FATAL: database "catalog_service" does not exist
+2025-12-19T17:21:33.101+05:30  WARN 21624 --- [CATALOG-SERVICE] [restartedMain] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
+
+org.hibernate.exception.GenericJDBCException: unable to obtain isolated JDBC connection [FATAL: database "catalog_service" does not exist] [n/a]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:63) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:94) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:116) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:336) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.3.jar:3.5.3]
+	at com.microservices.catalog_service.CatalogServiceApplication.main(CatalogServiceApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.3.jar:3.5.3]
+Caused by: org.postgresql.util.PSQLException: FATAL: database "catalog_service" does not exist
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2734) ~[postgresql-42.7.7.jar:42.7.7]
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2859) ~[postgresql-42.7.7.jar:42.7.7]
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:178) ~[postgresql-42.7.7.jar:42.7.7]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:344) ~[postgresql-42.7.7.jar:42.7.7]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57) ~[postgresql-42.7.7.jar:42.7.7]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:277) ~[postgresql-42.7.7.jar:42.7.7]
+	at org.postgresql.Driver.makeConnection(Driver.java:448) ~[postgresql-42.7.7.jar:42.7.7]
+	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.7.jar:42.7.7]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:368) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:205) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:483) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:571) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:101) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.0.jar:na]
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:483) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	... 38 common frames omitted
+
+2025-12-19T17:21:33.104+05:30 ERROR 21624 --- [CATALOG-SERVICE] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+2025-12-19T17:21:33.105+05:30  WARN 21624 --- [CATALOG-SERVICE] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+2025-12-19T17:21:33.114+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-12-19T17:21:33.133+05:30  INFO 21624 --- [CATALOG-SERVICE] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-19T17:21:33.154+05:30 ERROR 21624 --- [CATALOG-SERVICE] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.8.jar:6.2.8]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.3.jar:3.5.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.3.jar:3.5.3]
+	at com.microservices.catalog_service.CatalogServiceApplication.main(CatalogServiceApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.3.jar:3.5.3]
+Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:276) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.8.jar:6.2.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.8.jar:6.2.8]
+	... 18 common frames omitted
+Caused by: org.hibernate.HibernateException: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.determineDialect(DialectFactoryImpl.java:191) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.buildDialect(DialectFactoryImpl.java:87) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentWithDefaults(JdbcEnvironmentInitiator.java:186) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:408) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263) ~[hibernate-core-6.6.18.Final.jar:6.6.18.Final]
+	... 33 common frames omitted
+
+2025-12-19T17:31:53.777+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] c.m.c.CatalogServiceApplication          : Starting CatalogServiceApplication using Java 21.0.9 with PID 24624 (D:\Microservices\catalog-service\target\classes started by thala in D:\Microservices\catalog-service)
+2025-12-19T17:31:53.781+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] c.m.c.CatalogServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-19T17:31:53.841+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-19T17:31:53.842+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-19T17:31:55.215+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-19T17:31:55.236+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Scanning for JPA repositories in packages com.microservices.catalog_service.
+2025-12-19T17:31:55.249+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CatalogsRepository.class]
+2025-12-19T17:31:55.249+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CategoryRepository.class]
+2025-12-19T17:31:55.249+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.RepositoryComponentProvider    : Identified candidate component class: file [D:\Microservices\catalog-service\target\classes\com\microservices\catalog_service\repository\CategoryRepositoryPagingAndSorting.class]
+2025-12-19T17:31:55.337+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 99 ms. Found 3 JPA repository interfaces.
+2025-12-19T17:31:56.063+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
+2025-12-19T17:31:56.083+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-19T17:31:56.084+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-12-19T17:31:56.147+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-19T17:31:56.148+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2304 ms
+2025-12-19T17:31:56.340+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2025-12-19T17:31:56.509+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-19T17:31:56.569+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-12-19T17:31:56.599+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-19T17:31:56.837+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-19T17:31:56.860+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-19T17:31:57.032+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@19f75122
+2025-12-19T17:31:57.033+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-19T17:31:57.106+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 18.1
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-19T17:31:57.873+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-19T17:31:57.919+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : create table catalogs (catalog_id integer generated by default as identity, created_at timestamp(6) with time zone, updated_at timestamp(6) with time zone, catalog_title varchar(255), image_url varchar(255), price_unit decimal, quantity integer, sku varchar(255), category_id integer, primary key (catalog_id))
+2025-12-19T17:31:57.939+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : create table categories (category_id integer generated by default as identity, created_at timestamp(6) with time zone, updated_at timestamp(6) with time zone, category_title varchar(255) not null, image_url varchar(255), parent_category_id integer, primary key (category_id))
+2025-12-19T17:31:57.953+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : alter table if exists catalogs drop constraint if exists UKq8k1b2vv87c48dd0dgp34fgin
+2025-12-19T17:31:57.957+05:30  WARN 24624 --- [CATALOG-SERVICE] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-19T17:31:57.957+05:30  WARN 24624 --- [CATALOG-SERVICE] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ukq8k1b2vv87c48dd0dgp34fgin" of relation "catalogs" does not exist, skipping
+2025-12-19T17:31:57.958+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : alter table if exists catalogs add constraint UKq8k1b2vv87c48dd0dgp34fgin unique (catalog_title)
+2025-12-19T17:31:57.962+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : alter table if exists catalogs drop constraint if exists UKdxijba1pishg539ivhdvet4kx
+2025-12-19T17:31:57.963+05:30  WARN 24624 --- [CATALOG-SERVICE] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-19T17:31:57.963+05:30  WARN 24624 --- [CATALOG-SERVICE] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ukdxijba1pishg539ivhdvet4kx" of relation "catalogs" does not exist, skipping
+2025-12-19T17:31:57.963+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : alter table if exists catalogs add constraint UKdxijba1pishg539ivhdvet4kx unique (sku)
+2025-12-19T17:31:57.965+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : alter table if exists categories drop constraint if exists UKcqndt3y6pm7wefmdv4o83satd
+2025-12-19T17:31:57.966+05:30  WARN 24624 --- [CATALOG-SERVICE] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-19T17:31:57.966+05:30  WARN 24624 --- [CATALOG-SERVICE] [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "ukcqndt3y6pm7wefmdv4o83satd" of relation "categories" does not exist, skipping
+2025-12-19T17:31:57.966+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : alter table if exists categories add constraint UKcqndt3y6pm7wefmdv4o83satd unique (category_title)
+2025-12-19T17:31:57.969+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : alter table if exists catalogs add constraint FK3ekwt7v0npb883rka47mpn3a0 foreign key (category_id) references categories
+2025-12-19T17:31:57.976+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] org.hibernate.SQL                        : alter table if exists categories add constraint FK9il7y6fehxwunjeepq0n7g5rd foreign key (parent_category_id) references categories
+2025-12-19T17:31:57.979+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-19T17:31:58.028+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] .c.JpaMetamodelMappingContextFactoryBean : Initializing JpaMetamodelMappingContext…
+2025-12-19T17:31:58.051+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] .c.JpaMetamodelMappingContextFactoryBean : Finished initializing JpaMetamodelMappingContext
+2025-12-19T17:31:58.179+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.s.RepositoryFactorySupport     : Initializing repository instance for com.microservices.catalog_service.repository.CatalogsRepository…
+2025-12-19T17:31:58.247+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Looking up named query 'Catalog.existsBySku'
+2025-12-19T17:31:58.290+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Did not find named query Catalog.existsBySku
+2025-12-19T17:31:58.360+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.s.RepositoryFactorySupport     : Finished creation of repository instance for com.microservices.catalog_service.repository.CatalogsRepository.
+2025-12-19T17:31:58.367+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.s.RepositoryFactorySupport     : Initializing repository instance for com.microservices.catalog_service.repository.CategoryRepository…
+2025-12-19T17:31:58.370+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Looking up named query 'Category.findByCategoryTitleContaining'
+2025-12-19T17:31:58.370+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Did not find named query Category.findByCategoryTitleContaining
+2025-12-19T17:31:58.371+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Looking up named query 'Category.findByParentCategory_CategoryId'
+2025-12-19T17:31:58.371+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Did not find named query Category.findByParentCategory_CategoryId
+2025-12-19T17:31:58.376+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Looking up named query 'Category.findByCategoryTitle'
+2025-12-19T17:31:58.376+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Did not find named query Category.findByCategoryTitle
+2025-12-19T17:31:58.377+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Looking up named query 'Category.findByCategoryId'
+2025-12-19T17:31:58.378+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Did not find named query Category.findByCategoryId
+2025-12-19T17:31:58.381+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.s.RepositoryFactorySupport     : Finished creation of repository instance for com.microservices.catalog_service.repository.CategoryRepository.
+2025-12-19T17:31:58.420+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.s.RepositoryFactorySupport     : Initializing repository instance for com.microservices.catalog_service.repository.CategoryRepositoryPagingAndSorting…
+2025-12-19T17:31:58.429+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.jpa.repository.query.NamedQuery    : Did not find named query Category.findAllPagedAndSortedCategories.count
+2025-12-19T17:31:58.447+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-19T17:31:58.928+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.d.r.c.s.RepositoryFactorySupport     : Finished creation of repository instance for com.microservices.catalog_service.repository.CategoryRepositoryPagingAndSorting.
+2025-12-19T17:31:59.131+05:30  WARN 24624 --- [CATALOG-SERVICE] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-19T17:31:59.275+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 20 mappings in 'requestMappingHandlerMapping'
+2025-12-19T17:31:59.324+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2025-12-19T17:31:59.372+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-12-19T17:31:59.432+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-12-19T17:31:59.869+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-12-19T17:31:59.878+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2025-12-19T17:31:59.991+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8084 (http) with context path '/'
+2025-12-19T17:32:00.007+05:30  INFO 24624 --- [CATALOG-SERVICE] [restartedMain] c.m.c.CatalogServiceApplication          : Started CatalogServiceApplication in 6.818 seconds (process running for 7.264)
+2025-12-19T17:33:34.315+05:30  INFO 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-19T17:33:34.315+05:30  INFO 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-19T17:33:34.315+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2025-12-19T17:33:34.315+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2025-12-19T17:33:34.315+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2025-12-19T17:33:34.315+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@1ad74728
+2025-12-19T17:33:34.315+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@2c531b64
+2025-12-19T17:33:34.315+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-12-19T17:33:34.315+05:30  INFO 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-12-19T17:33:34.348+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/index.html", parameters={}
+2025-12-19T17:33:34.365+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2025-12-19T17:33:34.398+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:34.433+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/index.css", parameters={}
+2025-12-19T17:33:34.440+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui-standalone-preset.js", parameters={}
+2025-12-19T17:33:34.440+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-initializer.js", parameters={}
+2025-12-19T17:33:34.440+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui-bundle.js", parameters={}
+2025-12-19T17:33:34.444+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2025-12-19T17:33:34.447+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2025-12-19T17:33:34.450+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2025-12-19T17:33:34.447+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/swagger-ui.css", parameters={}
+2025-12-19T17:33:34.454+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2025-12-19T17:33:34.447+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2025-12-19T17:33:34.468+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:34.476+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:34.485+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:34.521+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:34.530+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:34.632+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs/swagger-config", parameters={}
+2025-12-19T17:33:34.634+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/swagger-ui/favicon-32x32.png", parameters={}
+2025-12-19T17:33:34.637+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.ui.SwaggerConfigResource#openapiJson(HttpServletRequest)
+2025-12-19T17:33:34.637+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2025-12-19T17:33:34.641+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:34.672+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json]
+2025-12-19T17:33:34.705+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [{configUrl=/v3/api-docs/swagger-config, oauth2RedirectUrl=http://localhost:8084/swagger-ui/oauth2-re (truncated)...]
+2025-12-19T17:33:34.714+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:34.723+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/v3/api-docs", parameters={}
+2025-12-19T17:33:34.726+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2025-12-19T17:33:36.530+05:30  INFO 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-10] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 1778 ms
+2025-12-19T17:33:36.596+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [application/json, */*] and supported [application/json]
+2025-12-19T17:33:36.612+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [{123, 34, 111, 112, 101, 110, 97, 112, 105, 34, 58, 34, 51, 46, 48, 46, 49, 34, 44, 34, 105, 110, 10 (truncated)...]
+2025-12-19T17:33:36.615+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-12-19T17:33:53.189+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/catalogs", parameters={}
+2025-12-19T17:33:53.191+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.microservices.catalog_service.controller.CatalogsController#findAll()
+2025-12-19T17:33:53.192+05:30  INFO 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] c.m.c.controller.CatalogsController      : CatalogsDto List, controller; fetch all categories
+2025-12-19T17:33:53.192+05:30  INFO 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] c.m.c.service.impl.CatalogsServiceImpl   : CatalogsDto List, service, fetch all catalogs
+2025-12-19T17:33:53.447+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] org.hibernate.SQL                        : /* <criteria> */ select c1_0.catalog_id,c1_0.catalog_title,c1_0.category_id,c1_0.created_at,c1_0.image_url,c1_0.price_unit,c1_0.quantity,c1_0.sku,c1_0.updated_at from catalogs c1_0
+2025-12-19T17:33:53.487+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] o.s.w.c.request.async.WebAsyncManager    : Started async request for "/api/catalogs"
+2025-12-19T17:33:53.487+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] o.s.w.c.request.async.WebAsyncManager    : Async result set for "/api/catalogs"
+2025-12-19T17:33:53.487+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] o.s.w.c.request.async.WebAsyncManager    : Performing async dispatch for "/api/catalogs"
+2025-12-19T17:33:53.498+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] o.s.web.servlet.DispatcherServlet        : Exiting but response remains open for further handling
+2025-12-19T17:33:53.503+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] o.s.web.servlet.DispatcherServlet        : "ASYNC" dispatch for GET "/api/catalogs", parameters={}
+2025-12-19T17:33:53.505+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] s.w.s.m.m.a.RequestMappingHandlerAdapter : Resume with async result [[[]]]
+2025-12-19T17:33:53.515+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2025-12-19T17:33:53.515+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[[]]]
+2025-12-19T17:33:53.523+05:30 DEBUG 24624 --- [CATALOG-SERVICE] [http-nio-8084-exec-2] o.s.web.servlet.DispatcherServlet        : Exiting from "ASYNC" dispatch, status 200
+2025-12-19T17:34:15.663+05:30  INFO 24624 --- [CATALOG-SERVICE] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-19T17:34:15.670+05:30  INFO 24624 --- [CATALOG-SERVICE] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-19T17:34:15.688+05:30  INFO 24624 --- [CATALOG-SERVICE] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-19T17:34:15.693+05:30  INFO 24624 --- [CATALOG-SERVICE] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-19T17:34:15.706+05:30  INFO 24624 --- [CATALOG-SERVICE] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
