@@ -5,6 +5,7 @@ import com.microservices.identity_service.exception.payload.ErrorResponse;
 //import com.microservices.identity_service.exception.payload.ExceptionMessage;
 import com.microservices.identity_service.exception.wrapper.*;
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -79,9 +80,7 @@ public class ApiControllerHandler {
         return new ResponseEntity<>("Cannot parse JSON :: accepted roles "+ Arrays.toString(Role.values()),HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {
-            MethodArgumentNotValidException.class
-    })
+    @ExceptionHandler(value =  MethodArgumentNotValidException.class)
     public <T extends BindException> ResponseEntity<ErrorResponse> handleValidationException(final T e,  WebRequest request) {
         log.info("ApiExceptionHandler:  Handle validation exception\n");
         Map<String, String> fieldErrors = new HashMap<>();
@@ -98,6 +97,23 @@ public class ApiControllerHandler {
                 .build();
         return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex,  WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation -> errors.put(violation.getPropertyPath().toString(), violation.getMessage()) );
+        final ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(Instant.now().toString())
+                .error("Validation Failed")
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(errors)
+                .path(request.getDescription(false))
+//                 .throwable(e)
+                .build();
+        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
+    }
+
+
+
 
     @ExceptionHandler(value = {
             UserNotFoundException.class,

@@ -72,7 +72,7 @@ public class User {
     private String phone;
 
     @Pattern(regexp = "^(http|https)://.*$", message = "Avatar URL must be a valid HTTP or HTTPS URL")
-    @Lob
+//    @Lob
     @Column(name = "imageUrl" , length = 2048)
     private String avatar;
 
