@@ -3,13 +3,7 @@ package com.microservices.identity_service.exception;
 import com.microservices.identity_service.enums.Role;
 import com.microservices.identity_service.exception.payload.ErrorResponse;
 //import com.microservices.identity_service.exception.payload.ExceptionMessage;
-import com.microservices.identity_service.exception.wrapper.EmailOrUsernameNotFoundException;
-import com.microservices.identity_service.exception.wrapper.PasswordNotFoundException;
-import com.microservices.identity_service.exception.wrapper.PhoneNumberNotFoundException;
-import com.microservices.identity_service.exception.wrapper.TokenException;
-import com.microservices.identity_service.exception.wrapper.UserNotAuthenticatedException;
-import com.microservices.identity_service.exception.wrapper.UserNotFoundException;
-import com.microservices.identity_service.exception.wrapper.RoleNotFoundException;
+import com.microservices.identity_service.exception.wrapper.*;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +25,12 @@ import reactor.core.publisher.Mono;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Hidden
@@ -169,6 +165,17 @@ public class ApiControllerHandler {
     public ResponseEntity<String> handleUserNotAuthenticatedException(UserNotAuthenticatedException ex) {
         log.error("User not authenticated: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+    }
+
+    @ExceptionHandler(JwtAuthenticationException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthError(JwtAuthenticationException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.UNAUTHORIZED.value());
+        body.put("error", "Unauthorized");
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

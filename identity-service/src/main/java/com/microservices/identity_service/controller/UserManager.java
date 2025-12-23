@@ -53,7 +53,7 @@ public class UserManager {
             User user = userService.update(id, updateDTO); // synchronous call
 //            return ResponseEntity.ok(new ResponseMessage("Update user: " + updateDTO.getUsername() + " successfully."));
             log.info("User {} Updated successfully.",user.getId());
-            return ResponseEntity.ok(controllerHelper.getUserResonse(user,true));
+            return ResponseEntity.ok(controllerHelper.getUserResonse(user,false));
 //        } catch (Exception e) {
 //            return ResponseEntity.badRequest().body(
 //                    new ResponseMessage("Update user: " + updateDTO.getUsername() + " failed: " + e.getMessage()));
@@ -111,7 +111,8 @@ public class UserManager {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping("/user/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and principal.id == #id)")
+//    @PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and principal.id == #id)")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
         try {
             User user = userService.findById(id)

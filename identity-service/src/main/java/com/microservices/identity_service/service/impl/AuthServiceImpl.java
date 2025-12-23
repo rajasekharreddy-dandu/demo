@@ -89,7 +89,7 @@ public class AuthServiceImpl implements AuthService{
 
         User user = modelMapper.map(signUp, User.class);
         user.setPassword(passwordEncoder.encode(signUp.getPassword()));
-        user.setRole(signUp.getRoles());
+        user.setRole(signUp.getRole());
         // user.setRoles(signUp.getRoles()
         //         .stream()
         //         .map(role -> roleService.findByName(mapToRoleName(role))
@@ -177,8 +177,12 @@ public class AuthServiceImpl implements AuthService{
 
 
 
-        modelMapper.map(updateDTO, existingUser);
-        existingUser.setPassword(passwordEncoder.encode(updateDTO.getPassword()));
+//        modelMapper.map(updateDTO, existingUser);
+        BeanUtils.copyProperties(updateDTO, existingUser,"id", "password", "createdAt");
+//        if(updateDTO.getPassword()!=null) {
+//            existingUser.setPassword(passwordEncoder.encode(updateDTO.getPassword()));
+//        }
+//        existingUser.setRole(updateDTO.getRole());
 
         return userRepository.save(existingUser);
 

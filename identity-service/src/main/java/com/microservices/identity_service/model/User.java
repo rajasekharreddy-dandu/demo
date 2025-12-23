@@ -41,48 +41,33 @@ import lombok.Setter;
         @UniqueConstraint(name = "unique_phone", columnNames = "phoneNumber")
 })
 public class User {
-    // @Id
-    // @GeneratedValue
-    // private Long id;
-    // private String firstname;
-    // private String lastname;
-    // private String username;
-    // private String email;
-    // private String password;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId", unique = true, nullable = false, updatable = false)
     private Long id;
 
-//    @NotBlank(message = "Full name must not be blank")
-//    @Size(min = 3, max = 100, message = "Full name must be between 3 and 100 characters")
+
     @Column(name = "fullName")
     private String fullname;
 
-//    @NotBlank(message = "Username must not be blank")
-//    @Size(min = 3, max = 100, message = "Username must be between 3 and 100 characters")
+
     @Column(name = "userName")
     private String username;
 
     @NaturalId
-//    @NotBlank
-//    @Size(max = 50)
-//    @Email(message = "Input must be in Email format")
     @Column(name = "email")
     private String email;
 
     @JsonIgnore
-//    @NotNull(message = "Password must not be null")
-//    @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
     @Column(name = "password")
     private String password;
 
-//    @NotBlank(message = "Gender must not be blank")
+
     @Column(name = "gender", nullable = false)
     private String gender;
 
-//    @Pattern(regexp = "^\\+91[0-9]{9,10}$|^0[0-9]{9,10}$", message = "The phone number is not in the correct format")
-//    @Size(min = 10, max = 11, message = "Phone number must be between 10 and 11 characters")
+
     @Column(name = "phoneNumber", unique = true)
     private String phone;
 

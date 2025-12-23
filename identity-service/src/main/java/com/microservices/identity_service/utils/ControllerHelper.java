@@ -26,7 +26,7 @@ public class ControllerHelper {
 
         String jwt = null;
         String refreshToken = null;
-        if (edit) { // Or whatever condition you need
+        if (edit) {
             jwt = jwtService.generateToken(user);
             refreshToken = refreshTokenService.createRefreshToken(user.getId()).getToken();
         }
