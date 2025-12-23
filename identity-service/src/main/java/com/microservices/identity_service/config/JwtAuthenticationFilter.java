@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final List<String> PUBLIC_URLS = List.of(
                     "/auth/**",
                     "/swagger-ui/**",
-                    "/swagger-resources/**"
+                    "/swagger-resources/**","/v3/api-docs/**"
             );
 
     private final AntPathMatcher pathMatcher = new AntPathMatcher();

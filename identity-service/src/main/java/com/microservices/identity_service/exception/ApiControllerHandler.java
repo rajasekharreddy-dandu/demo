@@ -3,14 +3,9 @@ package com.microservices.identity_service.exception;
 import com.microservices.identity_service.enums.Role;
 import com.microservices.identity_service.exception.payload.ErrorResponse;
 //import com.microservices.identity_service.exception.payload.ExceptionMessage;
-import com.microservices.identity_service.exception.wrapper.EmailOrUsernameNotFoundException;
-import com.microservices.identity_service.exception.wrapper.PasswordNotFoundException;
-import com.microservices.identity_service.exception.wrapper.PhoneNumberNotFoundException;
-import com.microservices.identity_service.exception.wrapper.TokenException;
-import com.microservices.identity_service.exception.wrapper.UserNotAuthenticatedException;
-import com.microservices.identity_service.exception.wrapper.UserNotFoundException;
-import com.microservices.identity_service.exception.wrapper.RoleNotFoundException;
+import com.microservices.identity_service.exception.wrapper.*;
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,10 +26,12 @@ import reactor.core.publisher.Mono;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Hidden
@@ -83,9 +80,7 @@ public class ApiControllerHandler {
         return new ResponseEntity<>("Cannot parse JSON :: accepted roles "+ Arrays.toString(Role.values()),HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {
-            MethodArgumentNotValidException.class
-    })
+    @ExceptionHandler(value =  MethodArgumentNotValidException.class)
     public <T extends BindException> ResponseEntity<ErrorResponse> handleValidationException(final T e,  WebRequest request) {
         log.info("ApiExceptionHandler:  Handle validation exception\n");
         Map<String, String> fieldErrors = new HashMap<>();
@@ -102,6 +97,23 @@ public class ApiControllerHandler {
                 .build();
         return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex,  WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation -> errors.put(violation.getPropertyPath().toString(), violation.getMessage()) );
+        final ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(Instant.now().toString())
+                .error("Validation Failed")
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(errors)
+                .path(request.getDescription(false))
+//                 .throwable(e)
+                .build();
+        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
+    }
+
+
+
 
     @ExceptionHandler(value = {
             UserNotFoundException.class,
@@ -169,6 +181,17 @@ public class ApiControllerHandler {
     public ResponseEntity<String> handleUserNotAuthenticatedException(UserNotAuthenticatedException ex) {
         log.error("User not authenticated: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+    }
+
+    @ExceptionHandler(JwtAuthenticationException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthError(JwtAuthenticationException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.UNAUTHORIZED.value());
+        body.put("error", "Unauthorized");
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

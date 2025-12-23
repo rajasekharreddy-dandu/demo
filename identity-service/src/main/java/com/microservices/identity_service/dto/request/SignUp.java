@@ -42,7 +42,7 @@ public class SignUp {
     private String avatar;
 
     // private Set<Role> roles;
-    private Role roles;
+    private Role role;
 
 }
 

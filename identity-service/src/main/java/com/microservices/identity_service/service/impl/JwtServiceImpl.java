@@ -2,6 +2,8 @@ package com.microservices.identity_service.service.impl;
 
 
 
+import com.microservices.identity_service.dto.response.TokenValidationResponse;
+import com.microservices.identity_service.exception.wrapper.JwtAuthenticationException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -81,26 +83,78 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean validateToken(String token) {
-        if (secretKey == null || secretKey.isEmpty())
-            throw new IllegalArgumentException("Not found secret key in structure");
+    public TokenValidationResponse validateToken(String token, String expectedUsername) {
+//        if (secretKey == null || secretKey.isEmpty())
+//            throw new IllegalArgumentException("Not found secret key in structure");
+//
+//        if (token.startsWith("Bearer "))
+//            token = token.replace("Bearer ", "");
+//
+//        try {
+//            final Claims claims = extractAllClaims(token);
+////            long currentTimeMillis = System.currentTimeMillis();
+//            // 2. Extract username from token
+//            String usernameInToken = claims.getSubject();
+//            // 3. Check if token is expired
+//            boolean isExpired = claims.getExpiration().before(new Date());
+//            // 4. Combined Validation: User matches AND token is not expired
+//            return (usernameInToken.equals(expectedUsername) && !isExpired);
+//
+//        } catch (ExpiredJwtException ex) {
+//            throw new IllegalArgumentException("Token has expired.");
+//        } catch (MalformedJwtException ex) {
+//            throw new IllegalArgumentException("Invalid token.");
+//        } catch (SignatureException ex) {
+//            throw new IllegalArgumentException("Token validation error.");
+//        } catch (IllegalArgumentException ex) {
+//            throw new IllegalArgumentException("Token validation error: " + ex.getMessage());
+//        }
 
-        if (token.startsWith("Bearer "))
-            token = token.replace("Bearer ", "");
+        // 1. Structural Validation
+        if (secretKey == null || secretKey.isEmpty()) {
+            throw new IllegalStateException("JWT Secret Key is not configured in the application properties.");
+        }
+
+        if (token == null || token.isEmpty()) {
+            throw new IllegalArgumentException("Token is missing.");
+        }
+
+        // 2. Clean the token string
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
 
         try {
-            Claims claims = extractAllClaims(token);
-            long currentTimeMillis = System.currentTimeMillis();
-            return claims.getExpiration().getTime() >= currentTimeMillis;
+            final Claims claims = extractAllClaims(token);
+
+            String usernameInToken = claims.getSubject();
+            boolean isExpired = claims.getExpiration().before(new Date());
+
+            // 3. Logic Validation (Username & Expiration)
+            if (!usernameInToken.equals(expectedUsername)) {
+                throw new JwtAuthenticationException("Token username does not match the expected user.");
+            }
+
+            if (isExpired) {
+                throw new JwtAuthenticationException("Token has expired.");
+            }
+
+            // 4. Success Response Object
+            return new TokenValidationResponse("valid Token",
+                    usernameInToken,
+                    "ACTIVE",
+                    claims.getIssuedAt().toString(),
+                    claims.getExpiration().toString()
+            );
+
         } catch (ExpiredJwtException ex) {
-            throw new IllegalArgumentException("Token has expired.");
-        } catch (MalformedJwtException ex) {
-            throw new IllegalArgumentException("Invalid token.");
-        } catch (SignatureException ex) {
-            throw new IllegalArgumentException("Token validation error.");
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException("Token validation error: " + ex.getMessage());
+            throw new JwtAuthenticationException("Token has expired.");
+        } catch (MalformedJwtException | SignatureException | UnsupportedJwtException ex) {
+            throw new JwtAuthenticationException("Invalid token signature or format.");
+        } catch (Exception ex) {
+            throw new JwtAuthenticationException("Token validation error: " + ex.getMessage());
         }
+
     }
 
     @Override

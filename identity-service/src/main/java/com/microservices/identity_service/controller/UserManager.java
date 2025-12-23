@@ -2,6 +2,7 @@ package com.microservices.identity_service.controller;
 
 
 import com.microservices.identity_service.dto.response.ResponseMessage;
+import com.microservices.identity_service.exception.payload.ErrorResponse;
 import com.microservices.identity_service.exception.wrapper.TokenErrorOrAccessTimeOut;
 import com.microservices.identity_service.exception.wrapper.UserNotFoundException;
 //import com.microservices.identity_service.http.HeaderGenerator;
@@ -14,6 +15,8 @@ import com.microservices.identity_service.service.AuthService;
 import com.microservices.identity_service.service.JwtService;
 import com.microservices.identity_service.utils.ControllerHelper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,7 +47,9 @@ public class UserManager {
     @Operation(summary = "Update user information", description = "Update the user information with the provided details.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad Request")
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+            @ApiResponse(responseCode = "400", description = "Bad Request",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PutMapping("update/{id}")
     @PreAuthorize("isAuthenticated() and (hasAuthority('USER')or hasAuthority('ADMIN'))")
@@ -53,7 +58,7 @@ public class UserManager {
             User user = userService.update(id, updateDTO); // synchronous call
 //            return ResponseEntity.ok(new ResponseMessage("Update user: " + updateDTO.getUsername() + " successfully."));
             log.info("User {} Updated successfully.",user.getId());
-            return ResponseEntity.ok(controllerHelper.getUserResonse(user,true));
+            return ResponseEntity.ok(controllerHelper.getUserResonse(user,false));
 //        } catch (Exception e) {
 //            return ResponseEntity.badRequest().body(
 //                    new ResponseMessage("Update user: " + updateDTO.getUsername() + " failed: " + e.getMessage()));
@@ -111,7 +116,8 @@ public class UserManager {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping("/user/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and principal.id == #id)")
+//    @PreAuthorize("hasAuthority('ADMIN') or (hasAuthority('USER') and principal.id == #id)")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
         try {
             User user = userService.findById(id)

@@ -188,21 +188,41 @@ public class AuthController {
         }
     }
 
-    @Operation(summary = "Validate JWT token", description = "Validates the provided JWT token.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Token is Valid"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized")
-    })
-    @GetMapping({"/validate-token"})
-    public Boolean validateToken(@RequestHeader(name = "Authorization") String authorizationToken) {
+//    @Operation(summary = "Validate JWT token", description = "Validates the provided JWT token.")
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "Token is Valid"),
+//            @ApiResponse(responseCode = "401", description = "Unauthorized")
+//    })
+//    @GetMapping({"/validate-token"})
+//    public Boolean validateToken(@RequestHeader(name = "Authorization") String authorizationToken,@RequestParam String username) {
+//
+//        if (jwtService.validateToken(authorizationToken,username)) {
+//            return ResponseEntity.ok(new TokenValidationResponse("Valid token")).hasBody();
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body(new TokenValidationResponse("Invalid token")).hasBody();
+//        }
+//    }
+    @Operation(
+            summary = "Validate JWT Token",
+            description = "Validates the signature, expiration, and ensures the username matches the token subject."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Token is valid and active"),
+            @ApiResponse(responseCode = "401", description = "Token is expired, invalid, or username mismatch"),
+            @ApiResponse(responseCode = "403", description = "Forbidden (Insufficient Permissions)")
 
-        if (jwtService.validateToken(authorizationToken)) {
-            return ResponseEntity.ok(new TokenValidationResponse("Valid token")).hasBody();
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new TokenValidationResponse("Invalid token")).hasBody();
-        }
+    })
+    @GetMapping("/validate-token")
+    public ResponseEntity<TokenValidationResponse> validateToken(
+            @RequestHeader(name = "Authorization") String authorizationToken,
+            @RequestParam String username) {
+        // will catch any exceptions thrown by the service.
+        TokenValidationResponse response = jwtService.validateToken(authorizationToken, username);
+
+        return ResponseEntity.ok(response);
     }
+
 
 
     public AuthenticationResponse generateAuthResonse(User user){

@@ -1,6 +1,7 @@
 package com.microservices.identity_service.service;
 
 
+import com.microservices.identity_service.dto.response.TokenValidationResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,7 @@ public interface JwtService {
     String generateToken(User userDetails);
 
     boolean isTokenValid(String token, UserDetails userDetails);
-    boolean validateToken(String token);
+    TokenValidationResponse validateToken(String token, String expectedUsername);
     ResponseCookie generateJwtCookie(String jwt);
     String getJwtFromCookies(HttpServletRequest request);
     ResponseCookie getCleanJwtCookie();
