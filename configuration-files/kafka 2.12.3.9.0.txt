@@ -1,0 +1,59 @@
+kafka 2.12.3.9.0
+replace the below content in kafka-run-class.bat
+
+for %%i in ("%BASE_DIR%\libs\*") do (
+    call :concat "%%i"
+)
+
+by :
+call :concat "%BASE_DIR%\libs\*;"
+
+
+First set kafka_home C:/kafka and add kafka/bin path environment variables
+
+In config folder kraft add the kafka folder path for temp dir in below files
+
+reconfig-server -> log.dirs=/tmp/kraft-combined-logs to log.dirs=C:/Users/radandu/Documents/kafka/tmp/kraft-combined-logs
+
+server-> log.dirs=/tmp/kraft-combined-logs to   log.dirs=C:/Users/radandu/Documents/kafka/tmp/kraft-combined-logs
+
+Run the command:
+windows -> kafka-storage.bat random-uuid
+
+jT9CrrFhTfOxrUFG-Fipew
+
+kafka-storage.bat format -t jT9CrrFhTfOxrUFG-Fipew -c C:\Users\radandu\Documents\Microservices\kafka\config\kraft\server.properties
+kafka-server-start.bat C:\Users\radandu\Documents\Microservices\kafka\config\kraft\server.properties
+
+Create Topic:
+kafka-topics.bat --create --topic notificationTopic --bootstrap-server localhost:9092
+kafka-topics.bat --describe --topic notificationTopic --bootstrap-server localhost:9092
+
+Produce:
+kafka-console-producer.bat --topic notificationTopic --bootstrap-server localhost:9092
+
+Consumer:
+kafka-console-consumer.bat --topic library-events --from-beginning --bootstrap-server localhost:9092
+
+All Topics list:
+kafka-topics.bat --list --bootstrap-server localhost:9092
+
+Create Input Topic:
+kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic streams-plaintext-input
+
+Create Output Topic:
+kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic streams-wordcount-output
+
+Start Consumer on Output Topic:
+kafka-console-consumer.bat --bootstrap-server localhost:9092 
+  --topic streams-wordcount-output 
+  --from-beginning 
+  --formatter org.apache.kafka.tools.consumer.DefaultMessageFormatter 
+  --property print.key=true 
+  --property print.value=true 
+  --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer 
+  --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
+
+Start the Streams Application:
+kafka-run-class.bat org.apache.kafka.streams.examples.wordcount.WordCountDemo
+
